@@ -1,7 +1,7 @@
 {{define "revisions"}}
 <div class="row col-md-9">
  <hr />
- <p class="text-muted">Revisions:</p>
+ <p class="text-muted">Версии:</p>
  <div class="list-group">
   {{range $log := .Log}}
    {{if $log.Link}}

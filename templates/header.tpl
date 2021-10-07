@@ -2,7 +2,7 @@
 <!doctype html>
 <head>
  <meta charset="UTF-8">
- <title>go-wiki!</title>
+ <title>tgiky</title>
  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -18,6 +18,6 @@
      {{ end }}
     {{ end }}
    </ol>
-   {{ if .Revision}}<p class="text-muted">Revision: {{.Revision}}</p>{{end}}
+   {{ if .Revision}}<p class="text-muted">Версия: {{.Revision}}</p>{{end}}
  </div>
 {{end}}

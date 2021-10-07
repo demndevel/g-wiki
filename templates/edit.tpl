@@ -18,7 +18,7 @@
   {{end}}
   <div class="form-group col-md-2">
    <button type="submit" class="btn btn-default">
-    <span class="glyphicon glyphicon-floppy-disk"></span> Save
+    <span class="glyphicon glyphicon-floppy-disk"></span> Сохранить
    </button>
   </div>
  </div>
