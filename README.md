@@ -1,4 +1,4 @@
-# go-wiki
+# demns fork of go-wiki for tgiky
 
 A _KISS_ wiki built on golang with git as the storage back-end. Content
 is formatted in [markdown
