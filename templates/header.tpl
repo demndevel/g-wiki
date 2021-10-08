@@ -18,6 +18,7 @@
      {{ end }}
     {{ end }}
    </ol>
+    <a href="/"><p>На главную страницу</p></a>
    {{ if .Revision}}<p class="text-muted">Версия: {{.Revision}}</p>{{end}}
  </div>
 {{end}}

@@ -11,9 +11,12 @@
   <div class="form-group col-md-2">
    <input type="text" class="form-control" name="author" placeholder="Author"/>
   </div>
+  <div class="form-group col-md-2">
+   <input type="text" class="form-control" name="passwordc" placeholder="password"/>
+  </div>
   {{if .Config}}
   <div class="form-group col-md-2">
-   <input type="text" class="form-control" name="password" placeholder="password"/>
+   <input type="text" class="form-control" name="password" placeholder="password for cfg"/>
   </div>
   {{end}}
   <div class="form-group col-md-2">
