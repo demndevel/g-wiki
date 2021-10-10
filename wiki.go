@@ -53,7 +53,7 @@ type Log struct {
 	Link    bool
 }
 
-var PassForChange string = "876287628"
+var PassForChange string = "password"
 
 func (node *Node) isHead() bool {
 	return len(node.Log) > 0 && node.Revision == node.Log[0].Hash
