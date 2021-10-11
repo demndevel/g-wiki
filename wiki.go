@@ -15,6 +15,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/russross/blackfriday"
 )
@@ -52,8 +53,6 @@ type Log struct {
 	Time    string
 	Link    bool
 }
-
-var PassForChange string = "password"
 
 func (node *Node) isHead() bool {
 	return len(node.Log) > 0 && node.Revision == node.Log[0].Hash
@@ -198,7 +197,7 @@ func wikiHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	if content != "" && changelog != "" && node.accessible() && passwordc == PassForChange {
+	if content != "" && changelog != "" && node.accessible() && Checker(passwordc) {
 		bytes := []byte(content)
 		err := writeFile(bytes, filePath)
 		if err != nil {
@@ -208,6 +207,8 @@ func wikiHandler(w http.ResponseWriter, r *http.Request) {
 			node.Bytes = bytes
 			node.GitAdd().GitCommit(changelog, author).GitLog()
 			node.ToMarkdown()
+
+			Logger("author: " + author + "; changelog: " + changelog + "\n")
 		}
 	} else if reset != "" && node.accessible() {
 		// Reset to revision
@@ -272,11 +273,13 @@ func renderTemplate(w http.ResponseWriter, node *Node) {
 		"templates/revisions.tpl", "templates/node.tpl")
 	err = t.Execute(w, node)
 	if err != nil {
-		log.Print("Could not execute template: ", err)
+		Logger("Could not execute template: " + err.Error())
 	}
 }
 
 func main() {
+	Logger("==== Program started ====" + "\n")
+
 	// Handlers
 	http.HandleFunc("/", wikiHandler)
 
@@ -292,6 +295,36 @@ func main() {
 		err = http.ListenAndServe(*local, nil)
 	}
 	if err != nil {
-		panic("ListenAndServe: " + err.Error())
+		Logger("ListenAndServe: " + err.Error())
+	}
+}
+
+func Checker(input string) bool {
+	myinfo, err := Load("users.conf")
+	if err != nil {
+		Logger(err.Error())
+	}
+	for key, value := range myinfo {
+		if encode(input) == value || encode(input) == value {
+			Logger("Edited: password from " + key + ";")
+			return true
+		}
+	}
+	return false
+}
+
+func Logger(message string) {
+	fmt.Println(time.Now().Format(time.RFC850) + " | " + message)
+	file, err := os.OpenFile("wiki.log", os.O_APPEND|os.O_WRONLY, 0644)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	// file.WriteString(time.Now().Format(time.RFC850) + " | " + message + "\n")
+	_, err = fmt.Fprintln(file, time.Now().Format(time.RFC850)+" | "+message)
+
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
 }
